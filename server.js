@@ -58,7 +58,6 @@ passport.use(new googleStrat({
     callbackURL: 'https://sign-in-page-r.onrender.com/auth/google/callback'
 },
 (accessToken, refreshToken, profile, done) => {
-    console.log(accessToken, refreshToken, profile, done);
     const email = profile.emails?.[0]?.value;
 
     if (!email) {
@@ -164,14 +163,24 @@ app.post('/signup', async (req, res) => {
             email: email,
         })
 
-        await transporter.sendMail({
+        /*await transporter.sendMail({
             from: `'Sign In Page' <${process.env.EMAIL_USER}>`,
             to: email,
             subject: 'Activation Code',
             text: `Don't share this with anyone! your activation code is ${code}`
-        });
+        });*/
 
-        res.send('email sent');
+        try {
+            await transporter.sendMail({
+                from: `'Sign In Page' <${process.env.EMAIL_USER}>`,
+                to: email,
+                subject: 'Activation Code',
+                text: `Your code is ${code}`
+            });
+            console.log("EMAIL SENT");
+        } catch (err) {
+            console.log("EMAIL ERROR:", err);
+        }
     };
 
     return res.status(400).json({error: 'Something went wrong'});
