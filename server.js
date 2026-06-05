@@ -23,6 +23,7 @@ function ensureAuth(req, res, next){
 };
 
 // Use & Connect
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 _dotenv.config();
 
 mongoose.connect(process.env.MONGO_URI)
@@ -31,8 +32,8 @@ mongoose.connect(process.env.MONGO_URI)
 
 const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
+    port: 587,
+    secure: false,
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
@@ -185,8 +186,6 @@ app.post('/signup', async (req, res) => {
             console.log("EMAIL ERROR:", err);
         }
     };
-
-    return res.status(400).json({error: 'Something went wrong'});
 });
 
 app.post('/confirmLogin', async (req, res) => {
