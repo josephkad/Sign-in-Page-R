@@ -10,7 +10,8 @@ const path = require('path');
 const mongoose = require('mongoose');
 const User = require('./models/User');
 
-const nodemailer = require('nodemailer');
+const { Resend } = require('resend');
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Variables
 const app = express();
@@ -29,14 +30,6 @@ _dotenv.config();
 mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log('MongoDB connected'))
 .catch(err => console.log(err));
-
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-    }
-});
 
 app.use(session({
     secret: process.env.SESSION_SECRET,
@@ -172,17 +165,12 @@ app.post('/signup', async (req, res) => {
             text: `Don't share this with anyone! your activation code is ${code}`
         });*/
 
-        try {
-            await transporter.sendMail({
-                from: `'Sign In Page' <${process.env.EMAIL_USER}>`,
-                to: email,
-                subject: 'Activation Code',
-                text: `Your code is ${code}`
-            });
-            console.log("EMAIL SENT");
-        } catch (err) {
-            console.log("EMAIL ERROR:", err);
-        }
+        await resend.emails.send({
+            from: "Sign In Page <onboarding@resend.dev>",
+            to: email,
+            subject: "Activation Code",
+            text: `Your code is ${code}`
+        });
     };
 });
 
