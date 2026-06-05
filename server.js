@@ -1,3 +1,4 @@
+require('dns').setDefaultResultOrder('ipv4first');
 // Packages
 const express = require("express");
 const passport = require("passport");
