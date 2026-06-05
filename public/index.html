@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign-in Page</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <form class="container">
+    <h2 class="white-txt title1">Log in or sign up</h2>
+    <p class="white-txt p1">Welcome to our platform! Please log in or sign up to get started.</p>
+    <a href="http://localhost:3000/auth/google" type="button" class="black-btn"><i class="fa-brands fa-google"></i> Continue with Google</a>
+    <div class="grey-txt or-txt">OR</div>
+    <input type="email" class="black-form email-input" placeholder="Email address"/>
+    <input type="password" class="black-form password-input" placeholder="Password"/>
+    <input type="text" class="black-form key-input" placeholder="Key"/>
+    <p class="email-error-txt"></p>
+    <button type ="button" class="black-btn submitkey-btn">Submit Key</button>
+    <button type ="button" class="white-btn submit-btn">Continue</button>
+  </form>
+  
+  <script src="client.js"></script>
+</body>
+</html>
