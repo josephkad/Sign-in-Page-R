@@ -58,12 +58,13 @@ passport.use(new googleStrat({
     callbackURL: 'https://sign-in-page-r.onrender.com/auth/google/callback'
 },
 (accessToken, refreshToken, profile, done) => {
+    console.log(accessToken, refreshToken, profile, done);
     const email = profile.emails?.[0]?.value;
 
     if (!email) {
         return done(new Error("Google did not return email"), null);
     }
-    
+
     User.findOne({ email: profile.emails[0].value })
         .then(existingUser => {
             if (existingUser) {
